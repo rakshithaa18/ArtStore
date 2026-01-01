@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="register-container">
+  <div class="register-card">
+    <h5>🔐 Verify OTP</h5>
+
+    <form method="POST">
+      <input type="text" name="otp"
+             placeholder="Enter OTP"
+             class="form-control"
+             required>
+
+      <button class="btn-register mt-3">Verify</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

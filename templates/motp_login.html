@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="register-container">
+  <div class="register-card">
+    <h5>📲 Login with Mail OTP</h5>
+
+    <form method="POST">
+      <input type="text" name="email"
+             placeholder="Email"
+             class="form-control"
+             required>
+
+      <button class="btn-register mt-3">Send OTP</button>
+    </form>
+
+    <p class="login-link mt-3">
+      Login with password?
+      <a href="{{ url_for('login') }}">Click here</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

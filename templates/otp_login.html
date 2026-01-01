@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="register-container">
+  <div class="register-card">
+    <h5>📲 Login with SMS OTP</h5>
+
+    <form method="POST">
+      <input type="text" name="phone_number"
+             placeholder="Phone Number"
+             class="form-control"
+             pattern="[0-9]{10}"
+             required>
+
+      <button class="btn-register mt-3">Send OTP</button>
+    </form>
+
+    <p class="login-link mt-3">
+      Login with password?
+      <a href="{{ url_for('login') }}">Click here</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}
