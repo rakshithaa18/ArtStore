@@ -5,9 +5,13 @@ USE artstore;
 CREATE TABLE users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
+  Name VARCHAR(15),
   email VARCHAR(120) NOT NULL UNIQUE,
+  phone_number VARCHAR(15),
   password VARCHAR(255) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  otp varchar(6),
+  otp_expiry DATETIME
 );
 
 CREATE TABLE admins (
@@ -41,6 +45,12 @@ CREATE TABLE orders (
   total_amount DECIMAL(10,2) NOT NULL,
   status VARCHAR(50) DEFAULT 'Pending',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  address TEXT,
+  payment_mode VARCHAR(50),
+  discount DECIMAL(10,2),
+  delivered_at DATE,
+  cancelled_at DATE,
+  returned_at DATE,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -54,13 +64,16 @@ CREATE TABLE order_items (
   FOREIGN KEY (artwork_id) REFERENCES artworks(artwork_id) ON DELETE CASCADE
 );
 
-INSERT INTO admins (username, password, name) VALUES
-('admin', 'scrypt:32768:8:1$YViLob8JvMeqQMoz$0959c5bf26b741be2e3d929f8aead903412c60dee5a91daeb5333c644c33575847d7263982eee5070eb8bf507d2d43f80091fde7193eeeda1c05485c38267bd1', 'Gallery Admin');
-
-INSERT INTO artists (name, bio) VALUES
-('Ravi Kumar', 'Contemporary painter from India.'),
-('Ananya Roy', 'Digital artist focusing on surreal landscapes.'),
-
-INSERT INTO artworks (title, description, price, image_filename, artist_id, available_qty) VALUES
-('Sunset over Ganges', 'Oil painting with vibrant hues', 12000.00, 'sunset.jpg', 1, 1),
-('Dreamscape #1', 'Digital print, limited edition', 3500.00, 'dream1.jpg', 2, 5);
+CREATE TABLE reviews (
+  review_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  artwork_id INT NOT NULL,
+  order_id INT NOT NULL,
+  rating INT CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (user_id, artwork_id, order_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (artwork_id) REFERENCES artworks(artwork_id),
+  FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
